@@ -145,7 +145,7 @@ def dashboard():
 
     cur = mysql.connection.cursor()
     cur.execute("USE flaskblog")
-    result = cur.execute("SELECT * FROM articles")
+    result = cur.execute("SELECT * FROM articles WHERE author=%s",[session=['username']])
 
     articles = cur.fetchall()
 
