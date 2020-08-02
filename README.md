@@ -6,9 +6,10 @@
 
 Clone Git Repository
 
-```Git_link
-Repo link here
+```git
+git clone https://github.com/aditya1819/flaskblog.git
 ```
+or Download from github
 Use virtual env (optional)
  
 Install required python libraries
