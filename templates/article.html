@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <h1>{{article.title}}</h1>
+    <h5>By {{article.author}} on {{article.create_date}}</h5>
+    <hr>
+    <div>
+        {{article.body}}
+    </div>
+    <hr>
+    <a href="/articles" class='btn btn-outline-info'>Back</a>
+
+{% endblock %}
