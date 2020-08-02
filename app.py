@@ -74,12 +74,26 @@ def register():
 
         cur = mysql.connection.cursor()
         cur.execute("USE flaskblog")
-        cur.execute("INSERT INTO users(name,username,email,password) VALUES (%s, %s, %s, %s)", (name, username, email, password))
-        mysql.connection.commit()
-        cur.close()
+
+        # cur.execute("SELECT username FROM users")
+        # result = cur.fetchall()
+        # print(type(result))
+        # for i in result:
+        #     print(i)
+        #     if username == i:
+        #         cur.close()
+        #         flash('Username Already Exists !','danger')
+        #         return redirect(url_for('register'))
+        try:
+            cur.execute("INSERT INTO users(name,username,email,password) VALUES (%s, %s, %s, %s)", (name, username, email, password))
+            mysql.connection.commit()
+            cur.close()
+        except mysql.connection.IntegrityError:
+            flash('Username or Email already in use \nSelect other username or Login with existing account','danger')
+            return redirect(url_for('register'))
 
         flash('You are now registered and Can Login', 'success')
-        redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     return render_template('register.html', form=form) 
 
@@ -145,7 +159,7 @@ def dashboard():
 
     cur = mysql.connection.cursor()
     cur.execute("USE flaskblog")
-    result = cur.execute("SELECT * FROM articles WHERE author=%s",[session=['username']])
+    result = cur.execute("SELECT * FROM articles WHERE author = %s", [session['username']])
 
     articles = cur.fetchall()
 
@@ -188,8 +202,16 @@ def edit_article(id):
 
     cur = mysql.connection.cursor()
     cur.execute("USE flaskblog")
-    result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
+    
+    temp = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
     article = cur.fetchone()
+    
+    org_auth = article['author']
+    if org_auth != session['username']:
+        cur.close()
+        flash('Access Denied ! Invaild User','danger')
+        return redirect(url_for('dashboard'))        
+    # result = cur.execute("SELECT * FROM articles WHERE id = %s", [id])
 
     form = ArticleForm(request.form)
     
