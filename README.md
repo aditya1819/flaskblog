@@ -28,7 +28,7 @@ USE flaskblog;
 CREATE TABLE articles (id INT(11) AUTO_INCREMENT PRIMARY KEY,title VARCHAR(255),author VARCHAR(50),body TEXT,create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 ```
 ```SQL
-CREATE TABLE articles (id INT(11) AUTO_INCREMENT PRIMARY KEY,name VARCHAR(50),username VARCHAR(50),password VARCHAR(200),email VARCHAR(100),register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE users (id INT(11) AUTO_INCREMENT PRIMARY KEY,name VARCHAR(50),username VARCHAR(50),password VARCHAR(200),email VARCHAR(100),register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 ```
 Add MySQL Localhost Database details to `dbconnect.py` replace `user` and `passwd` by the `MySQL user` you are using or `root`
 ```python
